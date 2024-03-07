@@ -3,27 +3,52 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { IncomingMessage, Server, ServerResponse } from 'http';
 import veracityRouter from './routes/veracity.router';
+import swaggerJSDoc from 'swagger-jsdoc';
+import { setup, serve } from 'swagger-ui-express';
+import { OpenAPIOption } from '../openapi-options';
+import { writeFile } from 'fs';
+import path from 'path';
+import bodyParser from 'body-parser';
 
 export type AppServer = {
-  app: express.Application;
-  server: Server<typeof IncomingMessage, typeof ServerResponse>;
+    app: express.Application;
+    server: Server<typeof IncomingMessage, typeof ServerResponse>;
 };
 
 export const startServer = async () => {
-  const app = express();
-  const port = 3000;
+    const app = express();
+    const port = 3000;
 
-  app.use(cors({ origin: true, credentials: true }));
-  app.use(cookieParser());
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+    app.use(cors({ origin: true, credentials: true }));
+    app.use(cookieParser());
+    app.use(bodyParser.json({ limit: '50mb' }));
+    app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-  app.use('/veracity', veracityRouter);
+    // Setup Swagger JSDoc
+    const specs = swaggerJSDoc(OpenAPIOption);
 
-  const server = app.listen(port, () => {
-    console.log(`App is running at http://localhost:${port}`);
-  });
+    writeFile(
+        path.join(__dirname, '../docs/swagger.json'),
+        JSON.stringify(specs, null, 2),
+        (err) => {
+            if (err) console.log({ message: err.message, location: err.stack });
+        }
+    );
 
-  return { app, server } as AppServer;
-}
+    app.use((req, res, next) => {
+        console.log(
+            `${new Date().toISOString()} - ${req.method} ${req.originalUrl}`
+        );
+        next();
+    });
 
+    app.use('/docs', serve, setup(specs));
+
+    app.use('/veracity', veracityRouter);
+
+    const server = app.listen(port, () => {
+        console.log(`App is running at http://localhost:${port}`);
+    });
+
+    return { app, server } as AppServer;
+};
