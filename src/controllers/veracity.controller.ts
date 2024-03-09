@@ -2,24 +2,33 @@ import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
+type Body = {
+    data: [];
+    config: object;
+};
+
 type ProcessInfo = {
     status: string;
-    result?: any;
+    result?: object;
 };
 
 // Store the status and result of each process
 const processes: { [id: string]: ProcessInfo } = {};
 
 export const processData = (req: Request, res: Response): void => {
-    if (!Array.isArray(req.body)) {
-        res.status(400).send({ error: 'Invalid data. Expected an array.' });
+    const body: Body = req.body;
+
+    if (!body || !Array.isArray(body.data) || typeof body.config !== 'object') {
+        res.status(400).send({
+            error: 'Invalid body.',
+        });
         return;
     }
 
     const processId = uuidv4();
     const process: ProcessInfo = { status: 'In progress' };
     processes[processId] = process;
-    checkVeracity(req.body).subscribe((result) => {
+    checkVeracity(body.data).subscribe((result) => {
         process.status = 'Done';
         process.result = result;
     });
@@ -41,13 +50,13 @@ export const getProcessInfo = (req: Request, res: Response): void => {
     }
 };
 
-function checkVeracity(data: any[]): Observable<any> {
+function checkVeracity(data: []): Observable<object> {
     // Implement your veracity checks here
     return new Observable((subscriber) => {
         setTimeout(() => {
             const length = data.length;
             console.log(`Array length: ${length}`);
-            subscriber.next(length);
+            subscriber.next({ lenght: length });
             subscriber.complete();
         }, 15000);
     });
