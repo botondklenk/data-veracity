@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
-import { v4 as uuidv4 } from 'uuid';
+import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 type ProcessInfo = {
     status: string;
@@ -10,11 +10,7 @@ type ProcessInfo = {
 // Store the status and result of each process
 const processes: { [id: string]: ProcessInfo } = {};
 
-export const processData = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-): void => {
+export const processData = (req: Request, res: Response): void => {
     if (!Array.isArray(req.body)) {
         res.status(400).send({ error: 'Invalid data. Expected an array.' });
         return;
@@ -31,11 +27,7 @@ export const processData = (
     console.log('Data veracity process started with id: ' + processId);
 };
 
-export const getProcessInfo = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-): void => {
+export const getProcessInfo = (req: Request, res: Response): void => {
     const processId = req.params.id;
     const process = processes[processId];
     if (process) {

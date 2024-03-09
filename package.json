@@ -7,9 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node dist/index.js",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"npx ts-node\" src/index.ts",
-    "lint": "eslint 'src/**/*.{js,ts}'",
-    "lint:fix": "eslint src/**/*.{ts,js} --fix",
-    "format": "prettier --write 'src/**/*.{js,ts,json}'"
+    "prettier": "prettier --write ./src/",
+    "lint": "eslint src/**/*.{ts,js}"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +31,7 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
     "@types/uuid": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
@@ -40,6 +40,7 @@
     "eslint-plugin-prettier": "^5.1.3",
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
+    "prettier-eslint": "^16.3.0",
     "ts-node": "^10.9.2"
   }
 }

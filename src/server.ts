@@ -1,14 +1,17 @@
-import express from 'express';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
+import { writeFile } from 'fs';
 import { IncomingMessage, Server, ServerResponse } from 'http';
-import veracityRouter from './routes/veracity.router';
+import path from 'path';
+
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { setup, serve } from 'swagger-ui-express';
+
 import { OpenAPIOption } from '../openapi-options';
-import { writeFile } from 'fs';
-import path from 'path';
-import bodyParser from 'body-parser';
+
+import veracityRouter from './routes/veracity.router';
 
 export type AppServer = {
     app: express.Application;

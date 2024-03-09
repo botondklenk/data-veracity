@@ -1,32 +1,50 @@
 {
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": [
-      "@typescript-eslint",
-      "prettier"
-  ],
-  "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended",
-      "prettier"
-  ],
-  "rules": {
-      "quotes": [
-          2,
-          "single",
-          {
-              "avoidEscape": true
-          }
-      ],
-      "no-console": 2,
-      "prettier/prettier": [
-          "error",
-          {
-              "endOfLine": "auto",
-              "tabWidth": 4
-          }
-      ],
-      "@typescript-eslint/no-explicit-any": "warn"
-  }
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "prettier", "import"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript",
+        "prettier"
+    ],
+    "rules": {
+        "quotes": [
+            2,
+            "single",
+            {
+                "avoidEscape": true
+            }
+        ],
+        "no-console": 1,
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto",
+                "tabWidth": 4
+            }
+        ],
+        "@typescript-eslint/no-explicit-any": "warn",
+        "import/order": [
+            "error",
+            {
+                "newlines-between": "always",
+                "groups": [
+                    "builtin",
+                    "external",
+                    "internal",
+                    "parent",
+                    "sibling",
+                    "index"
+                ],
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                }
+            }
+        ]
+    }
 }
