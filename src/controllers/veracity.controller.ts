@@ -1,15 +1,49 @@
+import Ajv from 'ajv';
 import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
+type AggregateFunctions = 'mean' | 'min' | 'max';
+type Relation = '<' | '<=' | '>' | '>=' | '==' | '!=';
+
+type AggregatedValue = {
+    property: string;
+    aggregateFunction: AggregateFunctions;
+};
+
+type Rule = {
+    x1: AggregatedValue;
+    relation: Relation;
+    x2: number | AggregatedValue;
+};
+
+type Config = {
+    schema: object;
+    rules: Rule[];
+};
+
+type DataItem = {
+    [key: string]: any;
+};
+
 type Body = {
-    data: [];
-    config: object;
+    data: DataItem[];
+    config: Config;
+};
+
+type Problem = {
+    target: string;
+    message: string;
+};
+
+type ProcessResult = {
+    proplems: Problem[];
+    time: number;
 };
 
 type ProcessInfo = {
     status: string;
-    result?: object;
+    result?: ProcessResult;
 };
 
 // Store the status and result of each process
@@ -28,7 +62,7 @@ export const processData = (req: Request, res: Response): void => {
     const processId = uuidv4();
     const process: ProcessInfo = { status: 'In progress' };
     processes[processId] = process;
-    checkVeracity(body.data).subscribe((result) => {
+    checkVeracity(body.data, body.config).subscribe((result) => {
         process.status = 'Done';
         process.result = result;
     });
@@ -50,14 +84,82 @@ export const getProcessInfo = (req: Request, res: Response): void => {
     }
 };
 
-function checkVeracity(data: []): Observable<object> {
+function applyRule(items: DataItem[], rule: Rule): boolean {
+    // Check if rule.x1 is defined
+    if (!rule.x1) {
+        console.error('Invalid rule:', rule);
+        return false;
+    }
+
+    // Extract the G3 values from the items
+    const values = items.map(
+        (item: { [key: string]: any }) => item[rule.x1.property]
+    );
+
+    // Define the aggregate functions
+    const aggregateFunctions = {
+        mean: (values: number[]) =>
+            values.reduce((a, b) => a + b, 0) / values.length,
+        min: (values: number[]) => Math.min(...values),
+        max: (values: number[]) => Math.max(...values),
+    };
+
+    // Calculate the aggregate value
+    const x1 = aggregateFunctions[rule.x1.aggregateFunction](values);
+
+    let x2 = rule.x2;
+
+    if (typeof x2 !== 'number') {
+        x2 = aggregateFunctions[x2.aggregateFunction](values);
+    }
+
+    switch (rule.relation) {
+        case '<':
+            return x1 < x2;
+        case '<=':
+            return x1 <= x2;
+        case '>':
+            return x1 > x2;
+        case '>=':
+            return x1 >= x2;
+        case '==':
+            return x1 === x2;
+        case '!=':
+            return x1 !== x2;
+    }
+}
+
+function checkVeracity(
+    data: DataItem[],
+    config: Config
+): Observable<ProcessResult> {
     // Implement your veracity checks here
     return new Observable((subscriber) => {
-        setTimeout(() => {
-            const length = data.length;
-            console.log(`Array length: ${length}`);
-            subscriber.next({ lenght: length });
-            subscriber.complete();
-        }, 15000);
+        const startTime = Date.now();
+        const ajv = new Ajv();
+        const validate = ajv.compile(config.schema);
+        const problems: Problem[] = [];
+        const valid = validate(data);
+        if (!valid) {
+            validate.errors?.forEach((error) => {
+                problems.push({
+                    target: error.instancePath,
+                    message: error.message,
+                });
+            });
+        }
+
+        for (const rule of config.rules) {
+            if (!applyRule(data, rule)) {
+                problems.push({
+                    target: `${rule.x1.property} ${rule.x1.aggregateFunction}`,
+                    message: `'${rule.relation} ${rule.x2}' not satisfied`,
+                });
+            }
+        }
+
+        subscriber.next({ proplems: problems, time: Date.now() - startTime });
+
+        subscriber.complete();
     });
 }

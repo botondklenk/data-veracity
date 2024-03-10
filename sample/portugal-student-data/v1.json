@@ -1,0 +1,164 @@
+{
+    "schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "school": {
+                    "type": "string"
+                },
+                "sex": {
+                    "type": "string",
+                    "enum": [
+                        "M",
+                        "F"
+                    ]
+                },
+                "age": {
+                    "type": "integer"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "famsize": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "Pstatus": {
+                    "type": "string"
+                },
+                "Medu": {
+                    "type": "integer"
+                },
+                "Fedu": {
+                    "type": "integer"
+                },
+                "Mjob": {
+                    "type": "string"
+                },
+                "Fjob": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                },
+                "guardian": {
+                    "type": "string"
+                },
+                "traveltime": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4
+                },
+                "studytime": {
+                    "type": "integer"
+                },
+                "failures": {
+                    "type": "integer"
+                },
+                "schoolsup": {
+                    "type": "string"
+                },
+                "famsup": {
+                    "type": "string"
+                },
+                "paid": {
+                    "type": "string"
+                },
+                "activities": {
+                    "type": "string"
+                },
+                "nursery": {
+                    "type": "string"
+                },
+                "higher": {
+                    "type": "string"
+                },
+                "internet": {
+                    "type": "string"
+                },
+                "romantic": {
+                    "type": "string"
+                },
+                "famrel": {
+                    "type": "integer"
+                },
+                "freetime": {
+                    "type": "integer"
+                },
+                "goout": {
+                    "type": "integer"
+                },
+                "Dalc": {
+                    "type": "integer"
+                },
+                "Walc": {
+                    "type": "integer"
+                },
+                "health": {
+                    "type": "integer"
+                },
+                "absences": {
+                    "type": "integer"
+                },
+                "G1": {
+                    "type": "integer"
+                },
+                "G2": {
+                    "type": "integer"
+                },
+                "G3": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "school",
+                "sex",
+                "age",
+                "address",
+                "famsize",
+                "Pstatus",
+                "Medu",
+                "Fedu",
+                "Mjob",
+                "Fjob",
+                "reason",
+                "guardian",
+                "traveltime",
+                "studytime",
+                "failures",
+                "schoolsup",
+                "famsup",
+                "paid",
+                "activities",
+                "nursery",
+                "higher",
+                "internet",
+                "romantic",
+                "famrel",
+                "freetime",
+                "goout",
+                "Dalc",
+                "Walc",
+                "health",
+                "absences",
+                "G1",
+                "G2",
+                "G3"
+            ]
+        }
+    },
+    "rules": [
+        {
+            "x1": {
+                "property": "G3",
+                "aggregateFunction": "mean"
+            },
+            "relation": "<",
+            "x2": 3
+        }
+    ]
+}
