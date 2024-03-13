@@ -37,7 +37,7 @@ type Problem = {
 };
 
 type ProcessResult = {
-    proplems: Problem[];
+    problems: Problem[];
     time: number;
 };
 
@@ -158,7 +158,7 @@ function checkVeracity(
             }
         }
 
-        subscriber.next({ proplems: problems, time: Date.now() - startTime });
+        subscriber.next({ problems: problems, time: Date.now() - startTime });
 
         subscriber.complete();
     });
