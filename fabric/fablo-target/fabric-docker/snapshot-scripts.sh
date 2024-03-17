@@ -5,6 +5,10 @@ __getOrdererAndPeerNodes() {
       orderer0.group1.orderer.example.com
       peer0.org1.example.com
       peer1.org1.example.com
+      peer0.org2.example.com
+      peer1.org2.example.com
+      peer0.org3.example.com
+      peer1.org3.example.com
   "
 }
 
@@ -12,6 +16,8 @@ __getCASQLiteNodes() {
   echo "
       ca.orderer.example.com
       ca.org1.example.com
+      ca.org2.example.com
+      ca.org3.example.com
   "
 }
 

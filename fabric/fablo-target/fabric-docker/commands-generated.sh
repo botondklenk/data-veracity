@@ -9,6 +9,12 @@ generateArtifacts() {
   printItalics "Generating crypto material for Org1" "U1F512"
   certsGenerate "$FABLO_NETWORK_ROOT/fabric-config" "crypto-config-org1.yaml" "peerOrganizations/org1.example.com" "$FABLO_NETWORK_ROOT/fabric-config/crypto-config/"
 
+  printItalics "Generating crypto material for Org2" "U1F512"
+  certsGenerate "$FABLO_NETWORK_ROOT/fabric-config" "crypto-config-org2.yaml" "peerOrganizations/org2.example.com" "$FABLO_NETWORK_ROOT/fabric-config/crypto-config/"
+
+  printItalics "Generating crypto material for Org3" "U1F512"
+  certsGenerate "$FABLO_NETWORK_ROOT/fabric-config" "crypto-config-org3.yaml" "peerOrganizations/org3.example.com" "$FABLO_NETWORK_ROOT/fabric-config/crypto-config/"
+
   printItalics "Generating genesis block for group group1" "U1F3E0"
   genesisBlockCreate "$FABLO_NETWORK_ROOT/fabric-config" "$FABLO_NETWORK_ROOT/fabric-config/config" "Group1Genesis"
 
@@ -33,22 +39,38 @@ installChannels() {
 
   printItalics "Joining 'my-channel1' on  Org1/peer1" "U1F638"
   docker exec -i cli.org1.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoin 'my-channel1' 'Org1MSP' 'peer1.org1.example.com:7042' 'crypto/users/Admin@org1.example.com/msp' 'orderer0.group1.orderer.example.com:7030';"
+  printItalics "Joining 'my-channel1' on  Org2/peer0" "U1F638"
+  docker exec -i cli.org2.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoin 'my-channel1' 'Org2MSP' 'peer0.org2.example.com:7061' 'crypto/users/Admin@org2.example.com/msp' 'orderer0.group1.orderer.example.com:7030';"
+  printItalics "Joining 'my-channel1' on  Org2/peer1" "U1F638"
+  docker exec -i cli.org2.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoin 'my-channel1' 'Org2MSP' 'peer1.org2.example.com:7062' 'crypto/users/Admin@org2.example.com/msp' 'orderer0.group1.orderer.example.com:7030';"
+  printItalics "Joining 'my-channel1' on  Org3/peer0" "U1F638"
+  docker exec -i cli.org3.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoin 'my-channel1' 'Org3MSP' 'peer0.org3.example.com:7081' 'crypto/users/Admin@org3.example.com/msp' 'orderer0.group1.orderer.example.com:7030';"
+  printItalics "Joining 'my-channel1' on  Org3/peer1" "U1F638"
+  docker exec -i cli.org3.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoin 'my-channel1' 'Org3MSP' 'peer1.org3.example.com:7082' 'crypto/users/Admin@org3.example.com/msp' 'orderer0.group1.orderer.example.com:7030';"
 }
 
 installChaincodes() {
-  if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/chaincode-kv-node")" ]; then
+  if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode")" ]; then
     local version="0.0.1"
     printHeadline "Packaging chaincode 'chaincode1'" "U1F60E"
-    chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/chaincode-kv-node" "16"
+    chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode" "16"
     chaincodePackage "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" "node" printHeadline "Installing 'chaincode1' for Org1" "U1F60E"
     chaincodeInstall "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" ""
     chaincodeInstall "cli.org1.example.com" "peer1.org1.example.com:7042" "chaincode1" "$version" ""
-    chaincodeApprove "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" ""
+    chaincodeApprove "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
+    printHeadline "Installing 'chaincode1' for Org2" "U1F60E"
+    chaincodeInstall "cli.org2.example.com" "peer0.org2.example.com:7061" "chaincode1" "$version" ""
+    chaincodeInstall "cli.org2.example.com" "peer1.org2.example.com:7062" "chaincode1" "$version" ""
+    chaincodeApprove "cli.org2.example.com" "peer0.org2.example.com:7061" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
+    printHeadline "Installing 'chaincode1' for Org3" "U1F60E"
+    chaincodeInstall "cli.org3.example.com" "peer0.org3.example.com:7081" "chaincode1" "$version" ""
+    chaincodeInstall "cli.org3.example.com" "peer1.org3.example.com:7082" "chaincode1" "$version" ""
+    chaincodeApprove "cli.org3.example.com" "peer0.org3.example.com:7081" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
     printItalics "Committing chaincode 'chaincode1' on channel 'my-channel1' as 'Org1'" "U1F618"
-    chaincodeCommit "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "peer0.org1.example.com:7041" "" ""
+    chaincodeCommit "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "peer0.org1.example.com:7041,peer0.org2.example.com:7061,peer0.org3.example.com:7081" "" "collections/chaincode1.json"
   else
     echo "Warning! Skipping chaincode 'chaincode1' installation. Chaincode directory is empty."
-    echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/chaincode-kv-node'"
+    echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode'"
   fi
 
 }
@@ -67,19 +89,27 @@ installChaincode() {
   fi
 
   if [ "$chaincodeName" = "chaincode1" ]; then
-    if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/chaincode-kv-node")" ]; then
+    if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode")" ]; then
       printHeadline "Packaging chaincode 'chaincode1'" "U1F60E"
-      chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/chaincode-kv-node" "16"
+      chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode" "16"
       chaincodePackage "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" "node" printHeadline "Installing 'chaincode1' for Org1" "U1F60E"
       chaincodeInstall "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" ""
       chaincodeInstall "cli.org1.example.com" "peer1.org1.example.com:7042" "chaincode1" "$version" ""
-      chaincodeApprove "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" ""
+      chaincodeApprove "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
+      printHeadline "Installing 'chaincode1' for Org2" "U1F60E"
+      chaincodeInstall "cli.org2.example.com" "peer0.org2.example.com:7061" "chaincode1" "$version" ""
+      chaincodeInstall "cli.org2.example.com" "peer1.org2.example.com:7062" "chaincode1" "$version" ""
+      chaincodeApprove "cli.org2.example.com" "peer0.org2.example.com:7061" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
+      printHeadline "Installing 'chaincode1' for Org3" "U1F60E"
+      chaincodeInstall "cli.org3.example.com" "peer0.org3.example.com:7081" "chaincode1" "$version" ""
+      chaincodeInstall "cli.org3.example.com" "peer1.org3.example.com:7082" "chaincode1" "$version" ""
+      chaincodeApprove "cli.org3.example.com" "peer0.org3.example.com:7081" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
       printItalics "Committing chaincode 'chaincode1' on channel 'my-channel1' as 'Org1'" "U1F618"
-      chaincodeCommit "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "peer0.org1.example.com:7041" "" ""
+      chaincodeCommit "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "peer0.org1.example.com:7041,peer0.org2.example.com:7061,peer0.org3.example.com:7081" "" "collections/chaincode1.json"
 
     else
       echo "Warning! Skipping chaincode 'chaincode1' install. Chaincode directory is empty."
-      echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/chaincode-kv-node'"
+      echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode'"
     fi
   fi
 }
@@ -94,9 +124,13 @@ runDevModeChaincode() {
   if [ "$chaincodeName" = "chaincode1" ]; then
     local version="0.0.1"
     printHeadline "Approving 'chaincode1' for Org1 (dev mode)" "U1F60E"
-    chaincodeApprove "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "0.0.1" "orderer0.group1.orderer.example.com:7030" "" "false" "" ""
+    chaincodeApprove "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "0.0.1" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
+    printHeadline "Approving 'chaincode1' for Org2 (dev mode)" "U1F60E"
+    chaincodeApprove "cli.org2.example.com" "peer0.org2.example.com:7061" "my-channel1" "chaincode1" "0.0.1" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
+    printHeadline "Approving 'chaincode1' for Org3 (dev mode)" "U1F60E"
+    chaincodeApprove "cli.org3.example.com" "peer0.org3.example.com:7081" "my-channel1" "chaincode1" "0.0.1" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
     printItalics "Committing chaincode 'chaincode1' on channel 'my-channel1' as 'Org1' (dev mode)" "U1F618"
-    chaincodeCommit "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "0.0.1" "orderer0.group1.orderer.example.com:7030" "" "false" "" "peer0.org1.example.com:7041" "" ""
+    chaincodeCommit "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "0.0.1" "orderer0.group1.orderer.example.com:7030" "" "false" "" "peer0.org1.example.com:7041,peer0.org2.example.com:7061,peer0.org3.example.com:7081" "" "collections/chaincode1.json"
 
   fi
 }
@@ -115,19 +149,27 @@ upgradeChaincode() {
   fi
 
   if [ "$chaincodeName" = "chaincode1" ]; then
-    if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/chaincode-kv-node")" ]; then
+    if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode")" ]; then
       printHeadline "Packaging chaincode 'chaincode1'" "U1F60E"
-      chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/chaincode-kv-node" "16"
+      chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode" "16"
       chaincodePackage "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" "node" printHeadline "Installing 'chaincode1' for Org1" "U1F60E"
       chaincodeInstall "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" ""
       chaincodeInstall "cli.org1.example.com" "peer1.org1.example.com:7042" "chaincode1" "$version" ""
-      chaincodeApprove "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" ""
+      chaincodeApprove "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
+      printHeadline "Installing 'chaincode1' for Org2" "U1F60E"
+      chaincodeInstall "cli.org2.example.com" "peer0.org2.example.com:7061" "chaincode1" "$version" ""
+      chaincodeInstall "cli.org2.example.com" "peer1.org2.example.com:7062" "chaincode1" "$version" ""
+      chaincodeApprove "cli.org2.example.com" "peer0.org2.example.com:7061" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
+      printHeadline "Installing 'chaincode1' for Org3" "U1F60E"
+      chaincodeInstall "cli.org3.example.com" "peer0.org3.example.com:7081" "chaincode1" "$version" ""
+      chaincodeInstall "cli.org3.example.com" "peer1.org3.example.com:7082" "chaincode1" "$version" ""
+      chaincodeApprove "cli.org3.example.com" "peer0.org3.example.com:7081" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "collections/chaincode1.json"
       printItalics "Committing chaincode 'chaincode1' on channel 'my-channel1' as 'Org1'" "U1F618"
-      chaincodeCommit "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "peer0.org1.example.com:7041" "" ""
+      chaincodeCommit "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "peer0.org1.example.com:7041,peer0.org2.example.com:7061,peer0.org3.example.com:7081" "" "collections/chaincode1.json"
 
     else
       echo "Warning! Skipping chaincode 'chaincode1' upgrade. Chaincode directory is empty."
-      echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/chaincode-kv-node'"
+      echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode'"
     fi
   fi
 }
@@ -135,12 +177,18 @@ upgradeChaincode() {
 notifyOrgsAboutChannels() {
   printHeadline "Creating new channel config blocks" "U1F537"
   createNewChannelUpdateTx "my-channel1" "Org1MSP" "MyChannel1" "$FABLO_NETWORK_ROOT/fabric-config" "$FABLO_NETWORK_ROOT/fabric-config/config"
+  createNewChannelUpdateTx "my-channel1" "Org2MSP" "MyChannel1" "$FABLO_NETWORK_ROOT/fabric-config" "$FABLO_NETWORK_ROOT/fabric-config/config"
+  createNewChannelUpdateTx "my-channel1" "Org3MSP" "MyChannel1" "$FABLO_NETWORK_ROOT/fabric-config" "$FABLO_NETWORK_ROOT/fabric-config/config"
 
   printHeadline "Notyfing orgs about channels" "U1F4E2"
   notifyOrgAboutNewChannel "my-channel1" "Org1MSP" "cli.org1.example.com" "peer0.org1.example.com" "orderer0.group1.orderer.example.com:7030"
+  notifyOrgAboutNewChannel "my-channel1" "Org2MSP" "cli.org2.example.com" "peer0.org2.example.com" "orderer0.group1.orderer.example.com:7030"
+  notifyOrgAboutNewChannel "my-channel1" "Org3MSP" "cli.org3.example.com" "peer0.org3.example.com" "orderer0.group1.orderer.example.com:7030"
 
   printHeadline "Deleting new channel config blocks" "U1F52A"
   deleteNewChannelUpdateTx "my-channel1" "Org1MSP" "cli.org1.example.com"
+  deleteNewChannelUpdateTx "my-channel1" "Org2MSP" "cli.org2.example.com"
+  deleteNewChannelUpdateTx "my-channel1" "Org3MSP" "cli.org3.example.com"
 }
 
 printStartSuccessInfo() {
@@ -171,6 +219,38 @@ networkDown() {
     docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
   done
   for image in $(docker images "dev-peer1.org1.example.com-chaincode1*" -q); do
+    echo "Removing image $image..."
+    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
+  done
+  for container in $(docker ps -a | grep "dev-peer0.org2.example.com-chaincode1" | awk '{print $1}'); do
+    echo "Removing container $container..."
+    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
+  done
+  for image in $(docker images "dev-peer0.org2.example.com-chaincode1*" -q); do
+    echo "Removing image $image..."
+    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
+  done
+  for container in $(docker ps -a | grep "dev-peer1.org2.example.com-chaincode1" | awk '{print $1}'); do
+    echo "Removing container $container..."
+    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
+  done
+  for image in $(docker images "dev-peer1.org2.example.com-chaincode1*" -q); do
+    echo "Removing image $image..."
+    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
+  done
+  for container in $(docker ps -a | grep "dev-peer0.org3.example.com-chaincode1" | awk '{print $1}'); do
+    echo "Removing container $container..."
+    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
+  done
+  for image in $(docker images "dev-peer0.org3.example.com-chaincode1*" -q); do
+    echo "Removing image $image..."
+    docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
+  done
+  for container in $(docker ps -a | grep "dev-peer1.org3.example.com-chaincode1" | awk '{print $1}'); do
+    echo "Removing container $container..."
+    docker rm -f "$container" || echo "docker rm of $container failed. Check if all fabric dockers properly was deleted"
+  done
+  for image in $(docker images "dev-peer1.org3.example.com-chaincode1*" -q); do
     echo "Removing image $image..."
     docker rmi "$image" || echo "docker rmi of $image failed. Check if all fabric dockers properly was deleted"
   done

@@ -35,6 +35,32 @@
       "tools": {
         "fabloRest": true
       }
+    },
+    {
+      "organization": {
+        "name": "Org2",
+        "domain": "org2.example.com"
+      },
+      "peer": {
+        "instances": 2,
+        "db": "LevelDb"
+      },
+      "tools": {
+        "fabloRest": true
+      }
+    },
+    {
+      "organization": {
+        "name": "Org3",
+        "domain": "org3.example.com"
+      },
+      "peer": {
+        "instances": 2,
+        "db": "LevelDb"
+      },
+      "tools": {
+        "fabloRest": true
+      }
     }
   ],
   "channels": [
@@ -43,6 +69,20 @@
       "orgs": [
         {
           "name": "Org1",
+          "peers": [
+            "peer0",
+            "peer1"
+          ]
+        },
+        {
+          "name": "Org2",
+          "peers": [
+            "peer0",
+            "peer1"
+          ]
+        },
+        {
+          "name": "Org3",
           "peers": [
             "peer0",
             "peer1"
@@ -57,7 +97,16 @@
       "version": "0.0.1",
       "lang": "node",
       "channel": "my-channel1",
-      "directory": "./chaincodes/chaincode-kv-node"
+      "directory": "./chaincodes/sample-ts-chaincode",
+      "privateData": [
+        {
+          "name": "coll-org1-org2",
+          "orgNames": [
+            "Org1",
+            "Org2"
+          ]
+        }
+      ]
     }
   ]
 }

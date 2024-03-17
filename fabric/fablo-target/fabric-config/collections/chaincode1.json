@@ -1,0 +1,11 @@
+[
+  {
+    "name": "coll-org1-org2",
+    "policy": "OR('Org1MSP.member','Org2MSP.member')",
+    "requiredPeerCount": 2,
+    "maxPeerCount": 6,
+    "blockToLive": 0,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true
+  }
+]
