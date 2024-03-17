@@ -6,7 +6,11 @@
             "type": "object",
             "properties": {
                 "school": {
-                    "type": "number"
+                    "type": "string",
+                    "enum": [
+                        "GP",
+                        "MS"
+                    ]
                 },
                 "sex": {
                     "type": "string",
@@ -15,76 +19,199 @@
                         "F"
                     ]
                 },
-                "famsize": {
-                    "type": [
-                        "string",
-                        "null"
+                "age": {
+                    "type": "integer",
+                    "minimum": 15,
+                    "maximum": 22
+                },
+                "address": {
+                    "type": "string",
+                    "enum": [
+                        "U",
+                        "R"
                     ]
                 },
-                "traveltime": {
+                "famsize": {
+                    "type": "string",
+                    "enum": [
+                        "LE3",
+                        "GT3"
+                    ]
+                },
+                "Pstatus": {
+                    "type": "string",
+                    "enum": [
+                        "T",
+                        "A"
+                    ]
+                },
+                "Medu": {
                     "type": "integer",
                     "minimum": 0,
                     "maximum": 4
                 },
+                "Fedu": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4
+                },
+                "Mjob": {
+                    "type": "string",
+                    "enum": [
+                        "teacher",
+                        "health",
+                        "services",
+                        "at_home",
+                        "other"
+                    ]
+                },
+                "Fjob": {
+                    "type": "string",
+                    "enum": [
+                        "teacher",
+                        "health",
+                        "services",
+                        "at_home",
+                        "other"
+                    ]
+                },
+                "reason": {
+                    "type": "string",
+                    "enum": [
+                        "home",
+                        "reputation",
+                        "course",
+                        "other"
+                    ]
+                },
+                "guardian": {
+                    "type": "string",
+                    "enum": [
+                        "mother",
+                        "father",
+                        "other"
+                    ]
+                },
+                "traveltime": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 4
+                },
                 "studytime": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 4
                 },
                 "failures": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 4
                 },
                 "schoolsup": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "yes",
+                        "no"
+                    ]
                 },
                 "famsup": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "yes",
+                        "no"
+                    ]
                 },
                 "paid": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "yes",
+                        "no"
+                    ]
                 },
                 "activities": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "yes",
+                        "no"
+                    ]
                 },
                 "nursery": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "yes",
+                        "no"
+                    ]
                 },
                 "higher": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "yes",
+                        "no"
+                    ]
                 },
                 "internet": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "yes",
+                        "no"
+                    ]
                 },
                 "romantic": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "yes",
+                        "no"
+                    ]
                 },
                 "famrel": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
                 },
                 "freetime": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
                 },
                 "goout": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
                 },
                 "Dalc": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
                 },
                 "Walc": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
                 },
                 "health": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
                 },
                 "absences": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 93
                 },
                 "G1": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 20
                 },
                 "G2": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 20
                 },
                 "G3": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 20
                 }
             },
             "required": [
