@@ -3,7 +3,7 @@ import { Router } from 'express';
 import {
     processData,
     getProcessInfo,
-} from '../controllers/veracity.controller';
+} from '../controllers/checks.controller';
 
 const r: Router = Router();
 

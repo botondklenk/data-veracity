@@ -1,16 +1,23 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Data Veracity API",
+    "title": "Veracity Checker API",
     "version": "0.0.0",
-    "description": ""
+    "description": "API documentation for the Veracity Checker"
   },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local server"
+    }
+  ],
   "paths": {
-    "/veracity/process": {
+    "/checks": {
       "post": {
-        "summary": "Start processing data",
+        "operationId": "startCheck",
+        "summary": "Start checking process",
         "tags": [
-          "Veracity"
+          "Checks"
         ],
         "requestBody": {
           "required": true,
@@ -67,20 +74,23 @@
         }
       }
     },
-    "/veracity/process/{id}": {
-      "get": {
-        "summary": "get process info",
-        "tags": [
-          "Veracity"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "description": "Process ID",
-            "in": "path",
-            "required": true,
+    "/checks/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "description": "Process ID",
+          "in": "path",
+          "required": true,
+          "schema": {
             "type": "string"
           }
+        }
+      ],
+      "get": {
+        "operationId": "getProcessInfo",
+        "summary": "Get checking process info",
+        "tags": [
+          "Checks"
         ],
         "responses": {
           "200": {
@@ -108,8 +118,12 @@
   "components": {},
   "tags": [
     {
-      "name": "Veracity",
-      "description": "Veracity routes"
+      "name": "Checks",
+      "description": "Veracity checking process management"
+    },
+    {
+      "name": "Results",
+      "description": "Veracity checking results"
     }
   ]
 }

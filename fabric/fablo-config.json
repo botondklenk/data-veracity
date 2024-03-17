@@ -97,7 +97,7 @@
       "version": "0.0.1",
       "lang": "node",
       "channel": "my-channel1",
-      "directory": "./chaincodes/sample-ts-chaincode",
+      "directory": "./chaincodes/veracity-store",
       "privateData": [
         {
           "name": "coll-org1-org2",

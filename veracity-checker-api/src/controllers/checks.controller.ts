@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
+// Process data and config
+
 type AggregateFunctions = 'mean' | 'min' | 'max';
 type Relation = '<' | '<=' | '>' | '>=' | '==' | '!=';
 
@@ -31,6 +33,8 @@ type Body = {
     config: Config;
 };
 
+// Process info
+
 type Problem = {
     target: string;
     message: string;
@@ -49,7 +53,7 @@ type ProcessInfo = {
 // Store the status and result of each process
 const processes: { [id: string]: ProcessInfo } = {};
 
-export const processData = (req: Request, res: Response): void => {
+export const startCheck = (req: Request, res: Response): void => {
     const body: Body = req.body;
 
     if (!body || !Array.isArray(body.data) || typeof body.config !== 'object') {
@@ -67,7 +71,7 @@ export const processData = (req: Request, res: Response): void => {
         process.result = result;
     });
     res.send({ processId });
-    console.log('Data veracity process started with id: ' + processId);
+    console.log('Data veracity checking process started with id: ' + processId);
 };
 
 export const getProcessInfo = (req: Request, res: Response): void => {

@@ -1,0 +1,178 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Veracity Store API",
+    "version": "0.0.0",
+    "description": "API documentation for the Veracity Store"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/checks": {
+      "get": {
+        "operationId": "listChecks",
+        "summary": "List shared results",
+        "description": "Lists the shared results of an organization",
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/checks/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getCheck",
+        "summary": "Get a shared result",
+        "description": "Gets a shared result from a partner organization by id",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "put": {
+        "operationId": "shareCheck",
+        "summary": "Share a veracity check result",
+        "description": "Shares a veracity check result with a specified organization",
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "checkId": {
+                    "type": "string"
+                  },
+                  "result": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "approveCheck",
+        "summary": "Approve or disapprove a result",
+        "description": "Approves or disapproves a shared check result",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "approved": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/checks/{id}/approve": {},
+    "/facts": {
+      "get": {
+        "operationId": "listFacts",
+        "summary": "List facts",
+        "description": "Lists the facts of all the checks that have been uploaded",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  }
+}

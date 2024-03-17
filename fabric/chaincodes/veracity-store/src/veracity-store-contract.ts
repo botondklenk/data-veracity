@@ -1,9 +1,9 @@
 import { Context, Contract } from "fabric-contract-api";
 import { createHash } from "crypto";
 
-export class KVContract extends Contract {
+export class VeracityStoreContract extends Contract {
     constructor() {
-        super("KVContract");
+        super("VeracityStoreContract");
     }
 
     async instantiate() {

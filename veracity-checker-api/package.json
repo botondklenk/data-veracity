@@ -1,5 +1,5 @@
 {
-  "name": "data-veracity",
+  "name": "veracity-checker-api",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",
@@ -22,6 +22,7 @@
     "express": "^4.18.3",
     "rxjs": "^7.8.1",
     "swagger-jsdoc": "^6.2.8",
+    "swagger-routes-express": "^3.3.2",
     "swagger-ui-express": "^5.0.0",
     "typescript": "^5.3.3",
     "uuid": "^9.0.1"
