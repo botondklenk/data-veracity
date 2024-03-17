@@ -99,9 +99,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "checkId": {
-                    "type": "string"
-                  },
                   "result": {
                     "type": "object"
                   }

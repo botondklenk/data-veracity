@@ -1,4 +1,5 @@
 import Ajv from 'ajv';
+import axios from 'axios';
 import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -69,6 +70,7 @@ export const startCheck = (req: Request, res: Response): void => {
     checkVeracity(body.data, body.config).subscribe((result) => {
         process.status = 'Done';
         process.result = result;
+        shareResult(processId, result);
     });
     res.send({ processId });
     console.log('Data veracity checking process started with id: ' + processId);
@@ -131,6 +133,27 @@ function applyRule(items: DataItem[], rule: Rule): boolean {
         case '!=':
             return x1 !== x2;
     }
+}
+
+function shareResult(processId: string, result: ProcessResult) {
+    const requestBody = {
+        result: result,
+    };
+    axios
+        .get(`http://localhost:3001/checks/${processId}?organization=example`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: requestBody,
+        })
+        .then((response) => {
+            // handle success
+            console.log(response.data);
+        })
+        .catch(() => {
+            // handle error
+            console.log('error');
+        });
 }
 
 function checkVeracity(
