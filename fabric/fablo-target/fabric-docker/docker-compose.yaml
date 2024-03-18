@@ -45,7 +45,7 @@ services:
       - ../fabric-config/config:/var/hyperledger/cli/config/ # genesis.block and channel.tx's
       - ../fabric-config/crypto-config/peerOrganizations/orderer.example.com:/var/hyperledger/cli/crypto/
       - ../fabric-config/chaincode-packages:/var/hyperledger/cli/chaincode-packages/
-      - "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode/:/var/hyperledger/cli/chaincode1/"
+      - "$CHAINCODES_BASE_DIR/./chaincodes/veracity-store/:/var/hyperledger/cli/chaincode1/"
       - "../fabric-config/collections/chaincode1.json:/var/hyperledger/cli/collections/chaincode1.json"
     networks:
       - basic
@@ -131,7 +131,7 @@ services:
       - ../fabric-config/config:/var/hyperledger/cli/config/ # genesis.block and channel.tx's
       - ../fabric-config/crypto-config/peerOrganizations/org1.example.com:/var/hyperledger/cli/crypto/
       - ../fabric-config/chaincode-packages:/var/hyperledger/cli/chaincode-packages/
-      - "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode/:/var/hyperledger/cli/chaincode1/"
+      - "$CHAINCODES_BASE_DIR/./chaincodes/veracity-store/:/var/hyperledger/cli/chaincode1/"
       - "../fabric-config/collections/chaincode1.json:/var/hyperledger/cli/collections/chaincode1.json"
     networks:
       - basic
@@ -281,7 +281,7 @@ services:
       - ../fabric-config/config:/var/hyperledger/cli/config/ # genesis.block and channel.tx's
       - ../fabric-config/crypto-config/peerOrganizations/org2.example.com:/var/hyperledger/cli/crypto/
       - ../fabric-config/chaincode-packages:/var/hyperledger/cli/chaincode-packages/
-      - "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode/:/var/hyperledger/cli/chaincode1/"
+      - "$CHAINCODES_BASE_DIR/./chaincodes/veracity-store/:/var/hyperledger/cli/chaincode1/"
       - "../fabric-config/collections/chaincode1.json:/var/hyperledger/cli/collections/chaincode1.json"
     networks:
       - basic
@@ -431,7 +431,7 @@ services:
       - ../fabric-config/config:/var/hyperledger/cli/config/ # genesis.block and channel.tx's
       - ../fabric-config/crypto-config/peerOrganizations/org3.example.com:/var/hyperledger/cli/crypto/
       - ../fabric-config/chaincode-packages:/var/hyperledger/cli/chaincode-packages/
-      - "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode/:/var/hyperledger/cli/chaincode1/"
+      - "$CHAINCODES_BASE_DIR/./chaincodes/veracity-store/:/var/hyperledger/cli/chaincode1/"
       - "../fabric-config/collections/chaincode1.json:/var/hyperledger/cli/collections/chaincode1.json"
     networks:
       - basic

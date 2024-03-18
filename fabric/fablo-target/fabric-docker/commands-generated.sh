@@ -50,10 +50,10 @@ installChannels() {
 }
 
 installChaincodes() {
-  if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode")" ]; then
+  if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/veracity-store")" ]; then
     local version="0.0.1"
     printHeadline "Packaging chaincode 'chaincode1'" "U1F60E"
-    chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode" "16"
+    chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/veracity-store" "16"
     chaincodePackage "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" "node" printHeadline "Installing 'chaincode1' for Org1" "U1F60E"
     chaincodeInstall "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" ""
     chaincodeInstall "cli.org1.example.com" "peer1.org1.example.com:7042" "chaincode1" "$version" ""
@@ -70,7 +70,7 @@ installChaincodes() {
     chaincodeCommit "cli.org1.example.com" "peer0.org1.example.com:7041" "my-channel1" "chaincode1" "$version" "orderer0.group1.orderer.example.com:7030" "" "false" "" "peer0.org1.example.com:7041,peer0.org2.example.com:7061,peer0.org3.example.com:7081" "" "collections/chaincode1.json"
   else
     echo "Warning! Skipping chaincode 'chaincode1' installation. Chaincode directory is empty."
-    echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode'"
+    echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/veracity-store'"
   fi
 
 }
@@ -89,9 +89,9 @@ installChaincode() {
   fi
 
   if [ "$chaincodeName" = "chaincode1" ]; then
-    if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode")" ]; then
+    if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/veracity-store")" ]; then
       printHeadline "Packaging chaincode 'chaincode1'" "U1F60E"
-      chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode" "16"
+      chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/veracity-store" "16"
       chaincodePackage "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" "node" printHeadline "Installing 'chaincode1' for Org1" "U1F60E"
       chaincodeInstall "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" ""
       chaincodeInstall "cli.org1.example.com" "peer1.org1.example.com:7042" "chaincode1" "$version" ""
@@ -109,7 +109,7 @@ installChaincode() {
 
     else
       echo "Warning! Skipping chaincode 'chaincode1' install. Chaincode directory is empty."
-      echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode'"
+      echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/veracity-store'"
     fi
   fi
 }
@@ -149,9 +149,9 @@ upgradeChaincode() {
   fi
 
   if [ "$chaincodeName" = "chaincode1" ]; then
-    if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode")" ]; then
+    if [ -n "$(ls "$CHAINCODES_BASE_DIR/./chaincodes/veracity-store")" ]; then
       printHeadline "Packaging chaincode 'chaincode1'" "U1F60E"
-      chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode" "16"
+      chaincodeBuild "chaincode1" "node" "$CHAINCODES_BASE_DIR/./chaincodes/veracity-store" "16"
       chaincodePackage "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" "node" printHeadline "Installing 'chaincode1' for Org1" "U1F60E"
       chaincodeInstall "cli.org1.example.com" "peer0.org1.example.com:7041" "chaincode1" "$version" ""
       chaincodeInstall "cli.org1.example.com" "peer1.org1.example.com:7042" "chaincode1" "$version" ""
@@ -169,7 +169,7 @@ upgradeChaincode() {
 
     else
       echo "Warning! Skipping chaincode 'chaincode1' upgrade. Chaincode directory is empty."
-      echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/sample-ts-chaincode'"
+      echo "Looked in dir: '$CHAINCODES_BASE_DIR/./chaincodes/veracity-store'"
     fi
   fi
 }

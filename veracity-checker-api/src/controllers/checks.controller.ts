@@ -140,7 +140,7 @@ function shareResult(processId: string, result: ProcessResult) {
         result: result,
     };
     axios
-        .get(`http://localhost:3001/checks/${processId}?organization=example`, {
+        .put(`http://localhost:3001/checks/${processId}?organization=example`, {
             headers: {
                 'Content-Type': 'application/json',
             },
