@@ -8,7 +8,8 @@
     "start": "tsc && node dist/index.js",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"npx ts-node\" src/index.ts",
     "prettier": "prettier --write ./src/",
-    "lint": "eslint src/**/*.{ts,js}"
+    "lint": "eslint src/**/*.{ts,js}",
+    "generate-api": "npx openapi-generator generate -i ./fabric-api/swagger.json -g typescript-node -o ./fabric-api"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.13.1",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/swagger-jsdoc": "^6.0.4",
