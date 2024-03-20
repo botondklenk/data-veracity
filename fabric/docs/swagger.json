@@ -9,9 +9,23 @@
             "url": "http://localhost:8801"
         }
     ],
+    "tags": [
+        {
+            "name": "user",
+            "description": "User operations"
+        },
+        {
+            "name": "channel",
+            "description": "Operations on a channel"
+        }
+    ],
     "paths": {
         "/user/enroll": {
             "post": {
+                "tags": [
+                    "user"
+                ],
+                "operationId": "getToken",
                 "summary": "Get token",
                 "requestBody": {
                     "required": true,
@@ -52,6 +66,10 @@
         },
         "/user/reenroll": {
             "post": {
+                "tags": [
+                    "user"
+                ],
+                "operationId": "renewToken",
                 "summary": "Regenerate token",
                 "requestBody": {
                     "required": true,
@@ -77,6 +95,10 @@
         },
         "/user/register": {
             "post": {
+                "tags": [
+                    "user"
+                ],
+                "operationId": "registerUser",
                 "summary": "Register",
                 "requestBody": {
                     "required": true,
@@ -110,6 +132,10 @@
         },
         "/user/identities": {
             "get": {
+                "tags": [
+                    "user"
+                ],
+                "operationId": "listUsers",
                 "summary": "List users",
                 "security": [
                     {
@@ -125,6 +151,10 @@
         },
         "/discover/{channelId}": {
             "post": {
+                "tags": [
+                    "channel"
+                ],
+                "operationId": "discover",
                 "summary": "Discover channel",
                 "parameters": [
                     {
@@ -150,7 +180,11 @@
         },
         "/invoke/{channelId}/{chaincodeId}": {
             "post": {
-                "summary": "Invoke put key 1 value one",
+                "tags": [
+                    "channel"
+                ],
+                "operationId": "invoke",
+                "summary": "Invoke chaincode operation",
                 "parameters": [
                     {
                         "name": "channelId",
@@ -193,37 +227,6 @@
                         }
                     }
                 },
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            },
-            "get": {
-                "summary": "Invoke get key 1",
-                "parameters": [
-                    {
-                        "name": "channelId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "chaincodeId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "security": [
                     {
                         "BearerAuth": []

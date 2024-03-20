@@ -1,15 +1,6 @@
-import axios from 'axios';
 import { Request, Response } from 'express';
 
-type Problem = {
-    target: string;
-    message: string;
-};
-
-type ProcessResult = {
-    problems: Problem[];
-    time: number;
-};
+import { ChannelService } from '../../fabric-api/services/ChannelService';
 
 export const listChecks = (req: Request, res: Response): void => {
     res.json([
@@ -19,16 +10,31 @@ export const listChecks = (req: Request, res: Response): void => {
 };
 
 export const getCheck = (req: Request, res: Response): void => {
-    const id = req.params.id;
-    res.json({ id, name: 'Check 1' });
+    const requestBody = {
+        method: 'VeracityStoreContract:get',
+        args: [req.params.id],
+        transient: {},
+    };
+    const promise = ChannelService.invoke(
+        'my-channel1',
+        'chaincode1',
+        requestBody
+    );
+    handleResponse(promise, res);
 };
 
 export const shareCheck = (req: Request, res: Response): void => {
-    const id = req.params.id;
-    const checkResult = req.body.data;
-    storeResult(id, checkResult);
-    // TODO only set res status to 201 if the result was stored successfully
-    res.status(201).json({ message: 'Check result stored' });
+    const requestBody = {
+        method: 'VeracityStoreContract:put',
+        args: [req.params.id, JSON.stringify(req.body.data)],
+        transient: {},
+    };
+    const promise = ChannelService.invoke(
+        'my-channel1',
+        'chaincode1',
+        requestBody
+    );
+    handleResponse(promise, res);
 };
 
 export const approveCheck = (req: Request, res: Response): void => {
@@ -36,30 +42,13 @@ export const approveCheck = (req: Request, res: Response): void => {
     res.json({ message: `Check with id ${id} approved/dissapproved` });
 };
 
-function storeResult(processId: string, result: ProcessResult) {
-    const requestBody = {
-        method: 'VeracityStoreContract:put',
-        args: [processId, JSON.stringify(result)],
-        transient: {},
-    };
-    axios
-        .post(
-            'http://localhost:8801/invoke/my-channel1/chaincode1',
-            requestBody,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization:
-                        'Bearer 7355e680-e55e-11ee-8198-018fac0a5072-admin',
-                },
-            }
-        )
+function handleResponse(promise: Promise<any>, res: Response) {
+    promise
         .then((response) => {
-            // handle success
-            console.log(response.data);
+            const data = JSON.parse(response.response.success);
+            res.status(200).json(data);
         })
-        .catch((e) => {
-            // handle error
-            console.log(e.data);
+        .catch((error) => {
+            res.status(400).json(error.body.message);
         });
 }

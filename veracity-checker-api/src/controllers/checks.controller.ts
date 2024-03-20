@@ -150,9 +150,9 @@ function shareResult(processId: string, result: ProcessResult) {
             // handle success
             console.log(response.data);
         })
-        .catch(() => {
+        .catch((e) => {
             // handle error
-            console.log('error');
+            console.log(e.response.data);
         });
 }
 
