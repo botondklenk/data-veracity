@@ -9,7 +9,7 @@
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"npx ts-node\" src/index.ts",
     "prettier": "prettier --write ./src/",
     "lint": "eslint src/**/*.{ts,js}",
-    "generate-api": "openapi --input ./fabric-api/swagger.json --output ./fabric-api --client axios"
+    "generate-fabric-api": "openapi --input ./fabric-api/swagger.json --output ./fabric-api --client axios"
   },
   "keywords": [],
   "author": "",
