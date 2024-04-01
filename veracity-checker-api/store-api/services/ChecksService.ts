@@ -30,20 +30,20 @@ export class ChecksService {
     /**
      * Get a shared result
      * Gets a shared result from a partner organization by id
-     * @param id
+     * @param checkId
      * @param organization
      * @returns any Successful operation
      * @throws ApiError
      */
     public static getCheck(
-        id: string,
+        checkId: string,
         organization: string,
     ): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/checks/{organization}/{id}',
+            url: '/checks/{organization}/{checkId}',
             path: {
-                'id': id,
+                'checkId': checkId,
                 'organization': organization,
             },
             errors: {
@@ -54,14 +54,14 @@ export class ChecksService {
     /**
      * Share a veracity check result
      * Shares a veracity check result with a specified organization
-     * @param id
+     * @param checkId
      * @param organization
      * @param requestBody
      * @returns any Successfully created
      * @throws ApiError
      */
     public static shareCheck(
-        id: string,
+        checkId: string,
         organization: string,
         requestBody: {
             result?: Record<string, any>;
@@ -69,9 +69,9 @@ export class ChecksService {
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PUT',
-            url: '/checks/{organization}/{id}',
+            url: '/checks/{organization}/{checkId}',
             path: {
-                'id': id,
+                'checkId': checkId,
                 'organization': organization,
             },
             body: requestBody,
@@ -82,26 +82,26 @@ export class ChecksService {
         });
     }
     /**
-     * Approve or disapprove a result
-     * Approves or disapproves a shared check result
-     * @param id
+     * Verify a veracity check result
+     * Shares a veracity check result with a specified organization, and verifies it
+     * @param checkId
      * @param organization
      * @param requestBody
      * @returns any Successful operation
      * @throws ApiError
      */
-    public static approveCheck(
-        id: string,
+    public static verifyCheck(
+        checkId: string,
         organization: string,
         requestBody: {
-            approved?: boolean;
+            result?: Record<string, any>;
         },
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/checks/{organization}/{id}',
+            url: '/checks/{organization}/{checkId}',
             path: {
-                'id': id,
+                'checkId': checkId,
                 'organization': organization,
             },
             body: requestBody,

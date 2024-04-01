@@ -17,7 +17,7 @@ interface InvokeConfig {
 export type InvokeResponse = {
     response: { error: string } | { success: object };
 };
-export type InvokeMethod = 'get' | 'share' | 'approve';
+export type InvokeMethod = 'get' | 'share' | 'verify';
 
 export async function invoke(
     method: InvokeMethod,

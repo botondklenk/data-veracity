@@ -37,17 +37,21 @@ export class VeracityStoreContract extends Contract {
         return SUCCESS(check);
     }
 
-    async approve(
+    async verify(
         ctx: Context, 
         checkId: string, 
-        provider: string, 
-        approved: boolean, 
+        provider: string,
         result: string
     ): Promise<InvokeResponse<VeracityCheck>>{
         const check = await get<VeracityCheck>(ctx, checkId);
         if (!check) return ERROR("CHECK_NOT_FOUND");
-        check.providerResult = JSON.parse(result);
-        check.status = approved ? "approved" : "mismatched";
+        check.consumerResult = JSON.parse(result);
+        if (check.providerResult !== check.consumerResult) {
+            check.status = "mismatched";
+        }
+        else {
+            check.status = "verified";
+        }
         await put(ctx, checkId, check);
         return SUCCESS(check);
     }

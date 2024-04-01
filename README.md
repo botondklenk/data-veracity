@@ -19,11 +19,16 @@ The architecture is composed of the following components:
     - **Veracity Store Chaincode**
 
 ### Statements
+- the check is done by the Veracity Checker API and not by a blockchain node, because:
+    - the data sould not leave the tranfer network
+    - the check should be done by a trusted party (the Veracity Checker API of the provider or the consumer)
+    - the check cloud be a complex process that should not be done by the blockchain node
 - the CONFIG for the checks should be a part of the CONTRACT
 - the distributed store should be queryable
 
 ### Questions:
-- veracity check <-> verify ?
+- check done by the connector or by the checker?
+- who and what sould be able to see of the results of the check?
 
 
 

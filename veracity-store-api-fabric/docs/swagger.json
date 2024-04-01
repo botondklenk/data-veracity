@@ -27,7 +27,6 @@
   ],
   "paths": {
     "/checks": {
-
       "get": {
         "tags": [
           "checks"
@@ -65,10 +64,10 @@
         }
       }
     },
-    "/checks/{organization}/{id}": {
+    "/checks/{organization}/{checkId}": {
       "parameters": [
         {
-          "name": "id",
+          "name": "checkId",
           "in": "path",
           "required": true,
           "schema": {
@@ -142,9 +141,9 @@
         "tags": [
           "checks"
         ],
-        "operationId": "approveCheck",
-        "summary": "Approve or disapprove a result",
-        "description": "Approves or disapproves a shared check result",
+        "operationId": "verifyCheck",
+        "summary": "Verify a veracity check result",
+        "description": "Shares a veracity check result with a specified organization, and verifies it",
         "requestBody": {
           "required": true,
           "content": {
@@ -152,8 +151,8 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "approved": {
-                    "type": "boolean"
+                  "result": {
+                    "type": "object"
                   }
                 }
               }

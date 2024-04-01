@@ -19,6 +19,17 @@
         "tags": [
           "Checks"
         ],
+        "parameters": [
+          {
+            "name": "verify",
+            "in": "query",
+            "description": "Whether to verify or share the check result",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {

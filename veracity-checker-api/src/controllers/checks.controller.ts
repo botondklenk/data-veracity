@@ -1,5 +1,5 @@
 import Ajv from 'ajv';
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -57,6 +57,7 @@ const processes: { [id: string]: ProcessInfo } = {};
 
 export const startCheck = (req: Request, res: Response): void => {
     const body: Body = req.body;
+    const verify: boolean = Boolean(req.query.verify);
 
     if (!body || !Array.isArray(body.data) || typeof body.config !== 'object') {
         res.status(400).send({
@@ -75,7 +76,11 @@ export const startCheck = (req: Request, res: Response): void => {
         const requestBody = {
             result: result,
         };
-        ChecksService.shareCheck(processId, 'consumer-org', requestBody);
+        if (verify) {
+            ChecksService.verifyCheck(processId, 'providerr-org', requestBody);
+        } else {
+            ChecksService.shareCheck(processId, 'consumer-org', requestBody);
+        }
     });
     res.send({ processId });
     console.log('Data veracity checking process started with id: ' + processId);

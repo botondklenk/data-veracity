@@ -1,4 +1,4 @@
-export type CheckStatus = 'shared' | 'approved' | 'mismatched';
+export type CheckStatus = 'shared' | 'verified' | 'mismatched';
 
 export interface VeracityCheck {
     providerResult: object;

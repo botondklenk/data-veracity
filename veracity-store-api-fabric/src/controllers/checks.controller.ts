@@ -19,28 +19,26 @@ export const listChecks = (req: Request, res: Response): void => {
 };
 
 export const getCheck = (req: Request, res: Response): void => {
-    const checkId = req.params.id;
+    const checkId = req.params.checkId;
     const promise = invoke('get', [checkId]);
     handleResponse(promise, res);
 };
 
 export const shareCheck = (req: Request, res: Response): void => {
-    const checkId = req.params.id;
+    const checkId = req.params.checkId;
     const consumer = req.params.organization;
     const providerResult = JSON.stringify(req.body.result);
     const promise = invoke('share', [checkId, consumer, providerResult]);
     handleResponse(promise, res);
 };
 
-export const approveCheck = (req: Request, res: Response): void => {
-    const checkId = req.params.id;
+export const verifyCheck = (req: Request, res: Response): void => {
+    const checkId = req.params.checkId;
     const provider = req.params.organization;
-    const approved = req.body.approved;
     const consumerResult = JSON.stringify(req.body.result);
-    const promise = invoke('approve', [
+    const promise = invoke('verify', [
         checkId,
         provider,
-        approved,
         consumerResult,
     ]);
     handleResponse(promise, res);
