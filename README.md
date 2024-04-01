@@ -29,7 +29,7 @@ The architecture is composed of the following components:
 ### Questions:
 - check done by the connector or by the checker?
 - who and what sould be able to see of the results of the check?
-
+- the checking checking process has an id, but the check (that contains the result of both the provider and the consumer) has another id. Can multiple transfers be done at the same, thus having multiple checks at the same time? 
 
 
 ## Connector and data transfer 
