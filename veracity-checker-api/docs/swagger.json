@@ -12,12 +12,12 @@
     }
   ],
   "paths": {
-    "/checks": {
+    "/checkprocesses": {
       "post": {
         "operationId": "startCheck",
         "summary": "Start checking process",
         "tags": [
-          "Checks"
+          "check processes"
         ],
         "parameters": [
           {
@@ -85,10 +85,10 @@
         }
       }
     },
-    "/checks/{id}": {
+    "/checkprocesses/{processId}": {
       "parameters": [
         {
-          "name": "id",
+          "name": "processId",
           "description": "Process ID",
           "in": "path",
           "required": true,
@@ -98,10 +98,10 @@
         }
       ],
       "get": {
-        "operationId": "getProcessInfo",
+        "operationId": "getProcessStatus",
         "summary": "Get checking process info",
         "tags": [
-          "Checks"
+          "check processes"
         ],
         "responses": {
           "200": {
@@ -129,11 +129,11 @@
   "components": {},
   "tags": [
     {
-      "name": "Checks",
+      "name": "check processes",
       "description": "Veracity checking process management"
     },
     {
-      "name": "Results",
+      "name": "results",
       "description": "Veracity checking results"
     }
   ]

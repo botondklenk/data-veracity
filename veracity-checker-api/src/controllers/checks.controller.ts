@@ -1,5 +1,5 @@
 import Ajv from 'ajv';
-import e, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -86,8 +86,8 @@ export const startCheck = (req: Request, res: Response): void => {
     console.log('Data veracity checking process started with id: ' + processId);
 };
 
-export const getProcessInfo = (req: Request, res: Response): void => {
-    const processId = req.params.id;
+export const getProcessStatus = (req: Request, res: Response): void => {
+    const processId = req.params.processId;
     const process = processes[processId];
     if (process) {
         res.send(process);
