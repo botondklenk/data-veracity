@@ -4,15 +4,27 @@ This project is meant to check the veracity of the data sent by the participants
 
 ## Architecture
 
-![Alt text](./docs/figures/architecture.png)
+![Alt text](./docs/figures/architecture.drawio.png)
 
-### Questions to answer:
-- where should the CONFIG for the checks come from?
-    - maybe should be a part of the CONTRACT?  - yes
-    - then the checker api should be able to read the contract! - not necessarily the connector can get it and call the checker with it
-- a contract can be used for multible data transfer?
-- can CONRATCT ID be used to identify the data transfer and the checks?
-- is QUERY important? leveldb cannot be queried - yes, i will try other db
+
+The architecture is composed of the following components:
+
+- Prometheus-X: 
+    - Dataspace Connector
+    - ? Contract Manager (if de config will be called by the checker and not by the connector)
+- **Veracity Checker API**
+- **Veracity Store API**
+- Fablo REST
+- Fabric Network:
+    - **Veracity Store Chaincode**
+
+### Statements
+- the CONFIG for the checks should be a part of the CONTRACT
+- the distributed store should be queryable
+
+### Questions:
+- veracity check <-> verify ?
+
 
 
 ## Connector and data transfer 
@@ -20,3 +32,5 @@ This project is meant to check the veracity of the data sent by the participants
 ![Alt text](https://raw.githubusercontent.com/Prometheus-X-association/dataspace-connector/main/docs/diagrams/high-level.svg)
 
 ![Alt text](https://raw.githubusercontent.com/Prometheus-X-association/dataspace-connector/main/docs/diagrams/non-personal-data-exchange.svg)
+
+![Alt text](docs/figures/check-call.drawio.png)
