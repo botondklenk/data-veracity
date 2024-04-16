@@ -9,3 +9,12 @@
 \newcommand{\thesistype}{Master's Thesis}
 
 \newcommand{\thesistitle}{Quality assurance support for dataspaces}
+
+\newcommand{\thesisfigure}[4][figures]{
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=#3]{#1/#2}
+        \caption{#4}
+        \label{fig:#2}
+    \end{figure}
+}

@@ -5,13 +5,16 @@ The style file: plainnat.bst
 A level-1 auxiliary file: include/titlepage.aux
 A level-1 auxiliary file: content/abstract.aux
 A level-1 auxiliary file: content/introduction.aux
+A level-1 auxiliary file: content/veracity.aux
+A level-1 auxiliary file: content/architecture.aux
+A level-1 auxiliary file: content/implementation.aux
 A level-1 auxiliary file: content/acronym.aux
 Database file #1: bib/mybib.bib
 Warning--entry type for "ids-ram" isn't style-file defined
 --line 1 of file bib/mybib.bib
 You've used 1 entry,
             2773 wiz_defined-function locations,
-            601 strings with 5044 characters,
+            604 strings with 5114 characters,
 and the built_in function-call counts, 330 in all, are:
 = -- 26
 > -- 10
