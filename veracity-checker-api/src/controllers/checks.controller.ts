@@ -1,8 +1,9 @@
 import Ajv from 'ajv';
-import axios from 'axios';
 import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
+
+import { ChecksService } from '../../store-api/services/ChecksService';
 
 // Process data and config
 
@@ -56,6 +57,7 @@ const processes: { [id: string]: ProcessInfo } = {};
 
 export const startCheck = (req: Request, res: Response): void => {
     const body: Body = req.body;
+    const verify: boolean = Boolean(req.query.verify);
 
     if (!body || !Array.isArray(body.data) || typeof body.config !== 'object') {
         res.status(400).send({
@@ -70,14 +72,22 @@ export const startCheck = (req: Request, res: Response): void => {
     checkVeracity(body.data, body.config).subscribe((result) => {
         process.status = 'Done';
         process.result = result;
-        shareResult(processId, result);
+
+        const requestBody = {
+            result: result,
+        };
+        if (verify) {
+            ChecksService.verifyCheck(processId, 'providerr-org', requestBody);
+        } else {
+            ChecksService.shareCheck(processId, 'consumer-org', requestBody);
+        }
     });
     res.send({ processId });
     console.log('Data veracity checking process started with id: ' + processId);
 };
 
-export const getProcessInfo = (req: Request, res: Response): void => {
-    const processId = req.params.id;
+export const getProcessStatus = (req: Request, res: Response): void => {
+    const processId = req.params.processId;
     const process = processes[processId];
     if (process) {
         res.send(process);
@@ -133,27 +143,6 @@ function applyRule(items: DataItem[], rule: Rule): boolean {
         case '!=':
             return x1 !== x2;
     }
-}
-
-function shareResult(processId: string, result: ProcessResult) {
-    const requestBody = {
-        result: result,
-    };
-    axios
-        .put(`http://localhost:3001/checks/${processId}?organization=example`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            data: requestBody,
-        })
-        .then((response) => {
-            // handle success
-            console.log(response.data);
-        })
-        .catch((e) => {
-            // handle error
-            console.log(e.response.data);
-        });
 }
 
 function checkVeracity(

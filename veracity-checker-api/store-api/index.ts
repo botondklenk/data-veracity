@@ -7,7 +7,6 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
-export type { InvokeBody } from './models/InvokeBody';
-
-export { ChannelService } from './services/ChannelService';
-export { UserService } from './services/UserService';
+export { AuthService } from './services/AuthService';
+export { ChecksService } from './services/ChecksService';
+export { FactsService } from './services/FactsService';

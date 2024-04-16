@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { InvokeBody } from '../models/InvokeBody';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -34,11 +35,7 @@ export class ChannelService {
     public static invoke(
         channelId: string,
         chaincodeId: string,
-        requestBody: {
-            method?: string;
-            args?: Array<string>;
-            transient?: Record<string, any>;
-        },
+        requestBody: InvokeBody,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',

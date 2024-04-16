@@ -208,21 +208,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "method": {
-                                        "type": "string"
-                                    },
-                                    "args": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "transient": {
-                                        "type": "object"
-                                    }
-                                }
+                                "$ref": "#/components/schemas/InvokeBody"
                             }
                         }
                     }
@@ -240,7 +226,27 @@
             }
         }
     },
+    
     "components": {
+        "schemas": {
+            "InvokeBody": {
+                "type": "object",
+                "properties": {
+                    "method": {
+                        "type": "string"
+                    },
+                    "args": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "transient": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
         "securitySchemes": {
             "BearerAuth": {
                 "type": "http",

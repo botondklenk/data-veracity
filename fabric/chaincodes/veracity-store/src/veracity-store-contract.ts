@@ -1,5 +1,7 @@
 import { Context, Contract } from "fabric-contract-api";
 import { createHash } from "crypto";
+import { VeracityCheck } from "./models";
+import { ERROR, InvokeResponse, SUCCESS, get, put } from "./utils";
 
 export class VeracityStoreContract extends Contract {
     constructor() {
@@ -10,16 +12,50 @@ export class VeracityStoreContract extends Contract {
         // function that will be invoked on chaincode instantiation
     }
 
-    async put(ctx: Context, key: string, value: string): Promise<{ success: string }> {
-        await ctx.stub.putState(key, Buffer.from(value));
-        return { success: "OK" };
+    async get(
+        ctx: Context, 
+        key: string
+    ): Promise<InvokeResponse<VeracityCheck>> {
+        const check = await get<VeracityCheck>(ctx, key);
+        if (!check) return ERROR("CHECK_NOT_FOUND");
+        return SUCCESS(check);
     }
 
-    async get(ctx: Context, key: string) {
-        const buffer = await ctx.stub.getState(key);
-        if (!buffer || !buffer.length) return { error: "NOT_FOUND" };
-        return { success: buffer.toString() };
+    async share(
+        ctx: Context, 
+        checkId: string, 
+        consumer: string, 
+        result: string
+    ): Promise<InvokeResponse<VeracityCheck>>{
+        const check: VeracityCheck = {
+            providerResult: JSON.parse(result),
+            consumerResult: {},
+            status: "shared",
+            contractId: "some-id",
+        }
+        await put(ctx, checkId, check);
+        return SUCCESS(check);
     }
+
+    async verify(
+        ctx: Context, 
+        checkId: string, 
+        provider: string,
+        result: string
+    ): Promise<InvokeResponse<VeracityCheck>>{
+        const check = await get<VeracityCheck>(ctx, checkId);
+        if (!check) return ERROR("CHECK_NOT_FOUND");
+        check.consumerResult = JSON.parse(result);
+        if (check.providerResult !== check.consumerResult) {
+            check.status = "mismatched";
+        }
+        else {
+            check.status = "verified";
+        }
+        await put(ctx, checkId, check);
+        return SUCCESS(check);
+    }
+
 
     async putPrivateMessage(ctx: Context, collection: string) {
         const transient = ctx.stub.getTransient();
@@ -45,4 +81,24 @@ export class VeracityStoreContract extends Contract {
         }
         return { success: "OK" };
     }
+
+    async queryAllAssets(ctx: Context): Promise<{ assets: string[] }> {
+        console.log("queryAllAssets", ctx.clientIdentity.getMSPID(), ctx.clientIdentity.getID());
+        const iterator = await ctx.stub.getQueryResult('{"selector":{}}');
+        const assets: string[] = [];
+        while (true) {
+            const result = await iterator.next();
+            if (result.value && result.value.value) {
+                assets.push(result.value.value.toString());
+            }
+            if (result.done) {
+                await iterator.close();
+                break;
+            }
+        }
+        return { assets };
+    }
+
+
+
 }
