@@ -3,6 +3,9 @@
 \contentsline {chapter}{Abstract}{ii}{chapter*.3}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Dataspaces}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}IDSA}{1}{section.1.2}%
+\contentsline {subsection}{\numberline {1.1.1}IDSA}{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Prometheus-X}{1}{subsection.1.1.2}%
+\contentsline {section}{\numberline {1.2}Blockchain}{1}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Hyperledger Fabric}{1}{subsection.1.2.1}%
 \contentsline {chapter}{Acronyms}{2}{chapter*.6}%
 \contentsline {chapter}{Bibliography}{3}{chapter*.6}%
