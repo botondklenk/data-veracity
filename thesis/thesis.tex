@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper,oneside]{report}
+
+\input{include/packages}
+
+\input{include/variables}
+
+\begin{document}
+
+\includepdf{feladat.pdf}
+
+\pagenumbering{gobble}
+\include{include/titlepage}
+\tableofcontents\cleardoublepage
+\include{content/abstract}
+
+\pagenumbering{arabic}
+% content
+\include{content/introduction}
+% --------
+
+\include{content/acronym}
+
+\addcontentsline{toc}{chapter}{\bibname}
+\bibliography{bib/mybib}
+
+\end{document}

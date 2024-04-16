@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2024)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: thesis.aux
+The style file: plainnat.bst
+A level-1 auxiliary file: include/titlepage.aux
+A level-1 auxiliary file: content/abstract.aux
+A level-1 auxiliary file: content/introduction.aux
+A level-1 auxiliary file: content/acronym.aux
+Database file #1: bib/mybib.bib
+Warning--entry type for "ids-ram" isn't style-file defined
+--line 1 of file bib/mybib.bib
+You've used 1 entry,
+            2773 wiz_defined-function locations,
+            601 strings with 5044 characters,
+and the built_in function-call counts, 330 in all, are:
+= -- 26
+> -- 10
+< -- 1
++ -- 4
+- -- 3
+* -- 17
+:= -- 55
+add.period$ -- 3
+call.type$ -- 1
+change.case$ -- 4
+chr.to.int$ -- 1
+cite$ -- 2
+duplicate$ -- 15
+empty$ -- 33
+format.name$ -- 4
+if$ -- 65
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 0
+newline$ -- 13
+num.names$ -- 4
+pop$ -- 12
+preamble$ -- 1
+purify$ -- 3
+quote$ -- 0
+skip$ -- 15
+stack$ -- 0
+substring$ -- 2
+swap$ -- 1
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 11
+warning$ -- 0
+while$ -- 3
+width$ -- 0
+write$ -- 19
+(There was 1 warning)
