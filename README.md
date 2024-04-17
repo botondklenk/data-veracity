@@ -39,3 +39,13 @@ The architecture is composed of the following components:
 ![Alt text](https://raw.githubusercontent.com/Prometheus-X-association/dataspace-connector/main/docs/diagrams/non-personal-data-exchange.svg)
 
 ![Alt text](docs/figures/check-call.drawio.png)
+
+zotero
+
+gonczyl
+
+scholar.google
+
+overleaf
+
+xmind
