@@ -40,9 +40,7 @@ The architecture is composed of the following components:
 
 ![Alt text](docs/figures/check-call.drawio.png)
 
-zotero
-
-gonczyl
+zotero gonczyl
 
 scholar.google
 
