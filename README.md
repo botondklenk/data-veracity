@@ -2,6 +2,8 @@
 
 This project is meant to check the veracity of the data sent by the participants in the dataspace.
 
+![Alt text](./docs/figures/x-mind.png)
+
 ## Architecture
 
 ![Alt text](./docs/figures/architecture.drawio.png)
